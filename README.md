@@ -17,6 +17,6 @@ regression and variable selection on external covariates (other time series pote
 
 An STS model expresses an observed time series as the sum of simpler components:
 
-~f(t)=f_1 (t)+f_2 (t)+⋯+f_n (t)+ε; ε~N(0,σ^2)~
+f(t)=f_1 (t)+f_2 (t)+⋯+f_n (t)+ε; ε~N(0,σ^2)
 
 The individual components are each time series governed by a particular structural assumption. For example, one component might encode a seasonal effect (e.g., day-of-week effects), another a local linear trend, and another a linear dependence on some set of covariate time series.

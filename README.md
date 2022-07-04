@@ -1,22 +1,30 @@
 # Causal-Inference-in-Time-Series-Modelling
 
-Although predictions of future events are necessarily uncertain, forecasting is a critical part of planning for the future.Methods for forecasting time series can also be applied to infer the causal impact of a feature launch or other intervention.
+Prediction Task vs Causal Task
+In a prediction task, the goal is to predict an outcome Y given a set of features X. Here we only try to approximate a target variable with independent variables which have similar distributional properties. A simple correlation between X and Y can be helpful for these types of predictions.
+In a causal task, we want to know how changing an aspect of X affects an outcome Y. In this case, it’s critical to know whether changing X causes an increase in Y, or whether the relationship in the data is merely correlational.
 
-#### Structural Time Series
-Structural time series (STS) models are a family of probability models for time series that includes and generalizes many standard time-series modeling ideas, including:
+Causal Inference in time series
+Can we apply methods for forecasting time series to infer the causal impact among the variables?
+In most real-world datasets, features are not independent and unconfounded, so standard predictive models will not learn the true causal effects. But sometimes we can fix or at least minimize this problem but only observational causal effects.
 
-autoregressive processes,
+Bayesian Structural Time Series
+BSTS models, employ a probabilistic approach to modelling a time series problem, they return a posterior predictive distribution over which we can sample to provide not only a forecast but also a means of quantifying model uncertainty. Another exciting and highly useful feature of BSTS model is that the resulting model can be decomposed as a collection of separate components.
+Definition
+The Bayesian structural time-series models are based on two equations, one is the observation equation fitting observed data to a state vector, and the other is a state equation that describes how the state vector evolves over time. For the state itself they use a local linear trend, which is good for short term predictions, combined with a seasonality model where appropriate. 
+Eq 1: observation equation: This links the observed data y_t to a latent d-dimensional state vector, α_t.
+y_t=z_t^T α_t+ βX_t+G_t ϵ_t
+Eq 2: state equation: it governs the evolution of the state vector α_t through time. 
+α_(t+1)=T_t α_t+ R_t η_t
 
-moving averages,
-
-local linear trends,
-
-seasonality, and
-
-regression and variable selection on external covariates (other time series potentially related to the series of interest).
-
-An STS model expresses an observed time series as the sum of simpler components:
-
-f(t)=f_1 (t)+f_2 (t)+⋯+f_n (t)+ε; ε~N(0,σ^2)
-
-The individual components are each time series governed by a particular structural assumption. For example, one component might encode a seasonal effect (e.g., day-of-week effects), another a local linear trend, and another a linear dependence on some set of covariate time series.
+α variable refers to the “state” of the time-series, and y_t is a linear combination of the states, plus a linear regression with some explanatory covariates, X, plus noise ϵ, that is normally distributed.
+ϵ_t and η_t are independent of all other unknowns.
+ϵ_t~ N(0,σ_t^2 )
+η_t~ N(0,Q_t )
+Google’s Causal Impact Model:
+Luckily you don’t have to explicitly decompose any of the model’s structural components defined above, google has introduced a package for causal inferencing in time series models in 2016, which they first presented it in “Big data Spain Conference”.
+Its main purpose is to identify and measure the effect of some event which change the course of the time series of interest.
+It forecasts by fitting a Bayesian Structural time series model to observed data which later used for predicting what the results would have been if the intervention did not happen (counterfactual explanation). It then calculates the cumulative difference between the forecasted and actual values to determine the incremental lift of the event.
+Lets look at a practical example:
+Business use-case: 
+Slight market share change is extremely vital in highly competitive Mobile Telecommunication landscape where Telco operators need to know what exactly causes this change, when did that event occur and how long the impact lasted, which helps to them to direct immediate corrective measures.

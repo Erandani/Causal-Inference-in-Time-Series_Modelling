@@ -13,13 +13,18 @@ BSTS models, employ a probabilistic approach to modelling a time series problem,
 Definition
 The Bayesian structural time-series models are based on two equations, one is the observation equation fitting observed data to a state vector, and the other is a state equation that describes how the state vector evolves over time. For the state itself they use a local linear trend, which is good for short term predictions, combined with a seasonality model where appropriate. 
 Eq 1: observation equation: This links the observed data y_t to a latent d-dimensional state vector, α_t.
+
 y_t=z_t^T α_t+ βX_t+G_t ϵ_t
+
 Eq 2: state equation: it governs the evolution of the state vector α_t through time. 
+
 α_(t+1)=T_t α_t+ R_t η_t
 
 α variable refers to the “state” of the time-series, and y_t is a linear combination of the states, plus a linear regression with some explanatory covariates, X, plus noise ϵ, that is normally distributed.
 ϵ_t and η_t are independent of all other unknowns.
+
 ϵ_t~ N(0,σ_t^2 )
+
 η_t~ N(0,Q_t )
 
 ##### Google’s Causal Impact Model:
